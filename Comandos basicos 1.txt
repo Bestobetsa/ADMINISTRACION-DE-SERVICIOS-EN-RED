@@ -1,0 +1,93 @@
+En el Router De Cisco Packet Tracer los comandos basicos quenos ayudaran son os Siguientes:
+
+	Router 1> "De este modo no estamos en usuario privilegiado necesitamos acceder a el y ser acon el comando" <ena>
+
+	Router 1>ena
+
+	Router# "Este usuario es modo privilegiado y nos permitira su configuracion"
+	
+NOTA: en caso de que se tenga password se debera introducir esta y se podra acceder al usuario en modo privilegiado.
+Tenemos comandos basicos para ver la configuraccin actual de nuestro Router e informacion como imagen iso o version.
+
+	R1#show running-config
+
+Observacion 1: en algunos casos podemos iniciar el comando y con la tecla de tabular podemos completar el comando.
+
+Tambien si queremos guardar la configuracion de nuestr routertenemos 2 maneras de hacerlo:
+Manera 1:
+	R1#copy running-config startup-config
+Manera 2 (son 2 pasos mas):
+	R1(conf)#exit
+	R1#wr
+De esta manera guardamos la configuracion y si es necesario el reinciio de nuestro router podemos hacerlo de la siguiente manera:
+	R1#reload
+
+Para poder nuestra tabla de ruteo del router podemos usar el siguiente comando:
+	
+	R1#show ip route
+
+Observacion 2: Este comando nos va a desplegar todas las interfaces (esten encendidas o no, se usen o no) por lo que
+la informacion desplegada sera mucha podemos usar el siguiente comando para ver las interfaces encendidas y en uso.
+
+	R1#show ip route brief
+
+Ahora si queremos visualizar sobre que protocolos esta trabajando nuestras interfaces (identificdas por ip) podemos ver
+el siguiente comando:
+
+	R1# show ip protocols 
+
+Observacion 3: Nos mostrara los protocolos que estan configurados y sus ip involucradas.
+
+ Si queremos ver mas comandos con SHOW podemos acceder al tipo man (es un comando utiliado en consila de SO base UNIX) que tiene
+ para ver quepodemos usar con show y es la suguente manera:
+
+ 		R1#show ?
+
+Observacion 4: Cada que desconoscamos que podemos usar con los comandos se recomienda o ir a la documentacion ya sea en la
+pagina de cisico o de itesa o bien podemos poner el caracter "?" para poder ver que nos despliega.
+
+Ahora si queremos configurar por ejemplo un mensaje del dia en nuetro router (Esto nos aparece en cuanto bramos su configuracion)
+Deberemos seguir los pasos siguientes:
+
+Para este paso es necesario entrar al modo privilegiado y a la configuracion global  y el comando es "configure terminal"
+ o bien "conf t" cualquiera de las 2 nos permitira entrar a este modo.
+
+	R1>ena
+	R1#configure terminal 
+	R1(configure)# banner motd # Escriba aquí el mensaje del día # .
+	R1(COnfigure)#exit
+	R1# copy running-config startup-config . 
+
+Y listo se abra configurado nuestro mensaje del dia, que en este caso podria ser una nota para quien vaya a quere modificar o verifiar
+algo en nuestro router.
+
+Tambien si queremos configurar a ip de nuestro Router debemos tomar en cueta 2 cosas.
+Cada Interfaz (la interfaz se refiere a la salida) debe tener una unica ip para evitar duplicidades.
+Como lo usaremos si como un router frontera, interior o exterior. 
+
+Anexo 1:
+    Router de interior.  Se utiliza en las LAN para unir redes diferentes, filtrando o no paquetes.
+    Router de exterior. Actúan fuera de las LAN y están en el núcleo de Internet utilizados por los operadores de Internet.
+    Router borde o frontera.  Conectan los routers interiores con los routers exteriores.  Los routers ADSL podrían ser un buen ejemplo de este tipo de routers.
+
+Ahora bien para la configuracion basica de la ip de nuestro router (de manera estatica, es decir esta no cambiaraya que no es un DNS)
+Observaciones previas:
+Fa=FastEthernet
+S=Serial
+Gb=GigabitEthernet
+n/n/n> donde n es nuestro numero de interfaz
+comandos a usar: ip address ip gateway 
+				 no shutdown 
+Nota: el gateway 255.255.255.0 es el default para redes de clase C
+	
+	R1>ena
+	R1#conft t
+	R1(configure)#interface Fa0/0
+	R1(configure-if)#ip address 1.1.1.1 255.255.255.0
+	R1(configure-if)#no shutdown
+	R1(configure-if)#exit
+	R1(configure)# exit
+	R1#copy running-config startup-config
+
+Y listo abremos configurado nuestra ip estatica en nuestro router.
+Este es todoe en esta seccion.
