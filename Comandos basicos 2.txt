@@ -1,0 +1,81 @@
+En eset segmento vamos a iniciar por ver como podemos poner el nombre de nuestro router.
+Esto debemos hacerlo en el modo privilegiado, como cualquier cambio a su conf.
+	
+	Router1>ena
+	Router1#conf t
+	Router1(config)#hostname R1
+	R1(config)#exit
+	R1#wr
+	R1#
+
+Y listo asi podemos cabiar no solo el del Router sino el de otros dispositivos
+
+Ahora vamos a agregarle un password a nuestro Router.
+Pero ojo una vez puesto y guardado los cambios se va a tener que ingresar el pasword cada vez que iniciemos el Router.
+Como ya sabemos debemos estar siempre en modo privilegiado para poder cambiar alguna conf del Router, por ello
+es que debemmos tener en cuenta que poner un password nos dara un poco de seguridad para que no sea tan facil cambiar
+algo importante de su configuracion.
+
+	R1>ena
+	R1#conf t
+	R1(config)#line console 0
+	R1(config-line)#password <aqui va el password>
+	R1(config-line)#login 
+	R1(config)#enable password <-indica que va a ser para logearnos al modo exc del router
+	R1(config)#enable secret <-usa un fuerte algoritmo MD5 para cifrar.
+	R1(config)#service password-encryption <-nos aplica un cifrado debil
+	R1(config)#exit
+	R1#wr
+
+NOTA: Se debe fijar contraseñas en una o más de las líneas de terminales virtuales (VTY), para habilitar el acceso remoto de usuarios al router mediante Telnet. Normalmente, los routers Cisco permiten cinco líneas de VTY identificadas del 0 al 4, aunque según el hardware particular, puede haber modalidades diferentes para las conexiones de VTY. Se suele usar la misma contraseña para todas las líneas, pero a veces se reserva una línea mediante una contraseña exclusiva, para que sea posible el acceso al router aunque haya demanda de más de cuatro conexiones.
+
+Y listo para nuestro router con password basico ya quedo. VTY como indica en la nota lo ocuparemos cuando tengamos la necesidad de hacer conexiones TELNET
+	
+	Nota:El nombre de Telnet proviene del acrónimo Telecomunication Network, y básicamente un protocolo de red TCP/IP que es utilizado desde 1960 para establecer conexiones remotas con otros ordenadores, servidores, y dispositivos con un sistema compatible en el acceso mediante este sistema de comunicación. De forma predeterminada se utiliza el puerto de conexión 23.
+	Basicamente TELNET se ocupaba para hacer conexiones remotas (algunos lugares aun ocupan este para verificar y hacer pruebas)
+
+Para VTY
+	
+	R1>ena
+	R1#configure terminal 
+	R1(config)# line vty 0 15 
+	R1(config-line)# password [pongo contraseña]
+
+Ahora en caso de que queramos poner algun password a un usuario deberemos hacer lo siguiente:
+
+	R1>ena
+	R1#conf t
+	R1(config)#username user1
+	R1(config)#username user1 password 7 user1
+	R1#sh running-config | include username
+username user1 password 0 user1
+
+De este modo estaremos poniendo password para todo, login, conexion remota y usuarios.
+
+Para poder explicar como poner un protocolo de red debemos tener en orden nuestras ip y sus gateways.
+Tambien recordarpara que es cada uno o por lo menos los basicos (EIGRP,OSPF,DNS,UTP/UDP,HTTP,TFTP,etc) y tener en cuenta nuestra
+topologia (es decir que esta conectado con que y la direccion del flujo de nuestra red)
+
+OSPF: Open Shortest Path First (OSPF) es un protocolo de direccionamiento de tipo enlace-estado, desarrollado para las redes IP y basado en el algoritmo de primera vía más corta (SPF). OSPF es un protocolo de pasarela interior (IGP). En una red OSPF, los direccionadores o sistemas de la misma área mantienen una base de datos de enlace-estado idéntica que describe la topología del área. Cada direccionador o sistema del área genera su propia base de datos de enlace-estado a partir de los anuncios de enlace-estado (LSA) que recibe de los demás direccionadores o sistemas de la misma área y de los LSA que él mismo genera. El LSA es un paquete que contiene información sobre los vecinos y los costes de cada vía.
+
+EIGRP:El EIGRP es una versión mejorada de IGRP. La tecnología de vector de igual distancia que se usa en IGRP también se emplea en EIGRP. Además, la información de la distancia subyacente no presenta cambios. Las propiedades de convergencia y la eficacia de operación de este protocolo han mejorado significativamente. Esto permite una arquitectura mejorada y, a la vez, retiene la inversión existente en IGRP. EIGRP ha sido extendido para que sea independiente del protocolo de la capa de red, y así permita que DUAL soporte otros conjuntos de protocolos.
+EIGRP tiene cuatro componentes básicos:
+    >Recuperación/Detección de vecino
+    >Protocolo de transporte confiable
+    >Máquina de estados finitos DUAL
+    >Módulos dependientes del protocolo
+
+DNS:DNS es un sistema de bases de datos distribuidas en la red con la función principal de traducir la solicitud de ciertos nombres de host a números de IP específicos que las computadoras entiendan. La información sobre nombres de host específicos que coinciden con números específicos se guarda en el directorio. El directorio se almacena en servidores de nombres de dominio.
+
+TFTP:El protocolo trivial de transferencia de archivos (TFTP) es un protocolo simple que proporciona una función básica de transferencia de archivos sin autenticación de usuario.
+TFTP está destinado a las aplicaciones que no necesitan las interacciones sofisticadas que proporciona el protocolo de transferencia de archivos (FTP). TFTP, junto con el protocolo Bootstrap (BOOTP), proporciona soporte para los clientes de un producto System i. También proporcionan soporte para otros clientes que usan los protocolos TFTP y BOOTP.
+
+TCP:TCP/IP es un conjunto de protocolos que permiten la comunicación entre los ordenadores pertenecientes a una red. La sigla TCP/IP significa Protocolo de control de transmisión/Protocolo de Internet y se pronuncia "T-C-P-I-P". Proviene de los nombres de dos protocolos importantes incluidos en el conjunto TCP/IP, es decir, del protocolo TCP y del protocolo IP.Debido a que el conjunto de protocolos TCP/IP originalmente se creó con fines militares, está diseñado para cumplir con una cierta cantidad de criterios, entre ellos, dividir mensajes en paquetes, usar un sistema de direcciones, enrutar datos por la red y detectar errores en las transmisiones de datos.El TCP/IP fue diseñado para ser compatible con cualquier sistema operativo, hardware o software. Esto es así porque el protocolo TCP define la manera en que los datos son fragmentados en secciones de información manejable o en paquetes, que luego son enviados individualmente a través de la red de Internet.
+
+
+
+
+
+
+
+
