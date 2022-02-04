@@ -1,4 +1,4 @@
-En el Router De Cisco Packet Tracer los comandos basicos quenos ayudaran son os Siguientes:
+En el Router De Cisco Packet Tracer los comandos basicos quenos ayudaran son los Siguientes:
 
 	Router 1> "De este modo no estamos en usuario privilegiado necesitamos acceder a el y ser acon el comando" <ena>
 
